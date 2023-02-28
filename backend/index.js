@@ -21,20 +21,22 @@
 const express = require("express");
 const app = express();
 const PORT = 3000;
+const http = require("http").Server(app);
+const cors = require("cors");
+
+const socketIO = require('socket.io')(http, {
+    cors: {
+        origin: "http://192.168.131.90:3000"
+    }
+});
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-const http = require("http").Server(app);
-const cors = require("cors");
 
 app.use(cors());
 
-const socketIO = require('socket.io')(http, {
-    cors: {
-        origin: "http://192.168.100.27:3000"
-    }
-});
+
 
 //generates rando string as the ID 
 const generateTD = () => Math.random().toString(36).substring(2, 10);
